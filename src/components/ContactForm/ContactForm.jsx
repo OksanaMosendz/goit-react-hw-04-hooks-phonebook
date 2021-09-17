@@ -1,59 +1,53 @@
-import React from 'react';
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import { Form, Label } from './ContactForm.styled';
 
-export class ContactForm extends React.Component {
-  state = {
-    name: '',
-    number: '',
-  };
+export const ContactForm = ({ onSubmit }) => {
+  const [name, setName] = useState('');
+  const [number, setNumber] = useState('');
 
-  HandleNameInput = e => {
-    this.setState({ name: e.target.value });
-  };
+  const HandleNameInput = e => setName(e.target.value);
+  const HandleNumberInput = e => setNumber(e.target.value);
 
-  HandleNumberInput = e => {
-    this.setState({ number: e.target.value });
-  };
-
-  FormSubmit = e => {
-    const { name, number } = this.state;
+  const FormSubmit = e => {
     e.preventDefault();
-    this.props.onSubmit(name, number);
-    this.setState({ name: '', number: '' });
+    onSubmit(name, number);
+    setName('');
+    setNumber('');
   };
 
-  render() {
-    const { name, number } = this.state;
-    return (
-      <Form onSubmit={this.FormSubmit}>
-        <Label>
-          Name
-          <input
-            type="text"
-            name="name"
-            value={name}
-            onChange={this.HandleNameInput}
-            pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
-            title="Имя может состоять только из букв, апострофа, тире и пробелов. Например Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan и т. п."
-            required
-          />
-        </Label>
+  return (
+    <Form onSubmit={FormSubmit}>
+      <Label>
+        Name
+        <input
+          type="text"
+          name="name"
+          value={name}
+          onChange={HandleNameInput}
+          pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
+          title="Имя может состоять только из букв, апострофа, тире и пробелов. Например Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan и т. п."
+          required
+        />
+      </Label>
 
-        <Label>
-          Number
-          <input
-            type="tel"
-            name="number"
-            value={number}
-            onChange={this.HandleNumberInput}
-            pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
-            title="Номер телефона должен состоять цифр и может содержать пробелы, тире, круглые скобки и может начинаться с +"
-            required
-          />
-        </Label>
+      <Label>
+        Number
+        <input
+          type="tel"
+          name="number"
+          value={number}
+          onChange={HandleNumberInput}
+          pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
+          title="Номер телефона должен состоять цифр и может содержать пробелы, тире, круглые скобки и может начинаться с +"
+          required
+        />
+      </Label>
+      <button type="submit">Add contact</button>
+    </Form>
+  );
+};
 
-        <button type="submit">Add contact</button>
-      </Form>
-    );
-  }
-}
+Form.propTypes = {
+  onSubmit: PropTypes.func.isRequired,
+};
