@@ -6,10 +6,7 @@ export const ContactForm = ({ onSubmit }) => {
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
 
-  const HandleNameInput = e => setName(e.target.value);
-  const HandleNumberInput = e => setNumber(e.target.value);
-
-  const FormSubmit = e => {
+  const formSubmit = e => {
     e.preventDefault();
     onSubmit(name, number);
     setName('');
@@ -17,14 +14,14 @@ export const ContactForm = ({ onSubmit }) => {
   };
 
   return (
-    <Form onSubmit={FormSubmit}>
+    <Form onSubmit={formSubmit}>
       <Label>
         Name
         <input
           type="text"
           name="name"
           value={name}
-          onChange={HandleNameInput}
+          onChange={e => setName(e.target.value)}
           pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
           title="Имя может состоять только из букв, апострофа, тире и пробелов. Например Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan и т. п."
           required
@@ -37,7 +34,7 @@ export const ContactForm = ({ onSubmit }) => {
           type="tel"
           name="number"
           value={number}
-          onChange={HandleNumberInput}
+          onChange={e => setNumber(e.target.value)}
           pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
           title="Номер телефона должен состоять цифр и может содержать пробелы, тире, круглые скобки и может начинаться с +"
           required

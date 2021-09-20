@@ -19,11 +19,7 @@ export const App = () => {
     window.localStorage.setItem('contacts', JSON.stringify(contacts));
   }, [contacts]);
 
-  const HandleSearchContactByName = e => {
-    setFilter(e.target.value);
-  };
-
-  const HandleFormSubmit = (name, number) => {
+  const handleFormSubmit = (name, number) => {
     const isInList = contacts.some(
       contact => contact.name.toLowerCase() === name.toLowerCase(),
     );
@@ -35,7 +31,7 @@ export const App = () => {
         ]);
   };
 
-  const HandleClickDelete = e => {
+  const handleClickDelete = e => {
     const updatedContacts = [];
     contacts.forEach(
       (contact, index) =>
@@ -47,13 +43,13 @@ export const App = () => {
   return (
     <>
       <h1>Phonebook</h1>
-      <ContactForm onSubmit={HandleFormSubmit} />
+      <ContactForm onSubmit={handleFormSubmit} />
       <h2>Contacts</h2>
-      <Filter onChangeFilter={HandleSearchContactByName} filter={filter} />
+      <Filter onChangeFilter={e => setFilter(e.target.value)} filter={filter} />
       <ContactList
         filter={filter}
         contacts={contacts}
-        onClickDelete={HandleClickDelete}
+        onClickDelete={handleClickDelete}
       />
     </>
   );
